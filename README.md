@@ -9,7 +9,9 @@ Unity本地化id查找器，luaparser函数参数查找
 
 ## 使用说明
 本插件能够查找到预制体和lua脚本里面那些地方调用了指定的本地化id。操作步骤：首先在LangID输入框中输入要查找的id（使用分号间隔），也可以直接从csv文件导入id。点击【查找】按钮，就可以找到对应的id被哪些预制体和lua代码调用了。
+
 ![在这里插入图片描述](https://i-blog.csdnimg.cn/direct/46491c1db11f4632a34365294ed82238.png#pic_center)
+
 【打开】按钮会调用默认编辑器打开对应的文件
 【更新Lua代码索引】按钮会运行python程序生成lua代码的索引文件
 【设置】按钮用于设置本地化函数名
@@ -60,6 +62,7 @@ end
 面对这些情况，正则就不够用了。为了实现对以上情况的查找，所以lua代码部分的查找工作使用语法树来完成，这里使用基于python的luaparser（也有基于JS的）。luaparser的官方文档：[https://pypi.org/project/luaparser/](https://pypi.org/project/luaparser/)
 
 这里使用python是为了方便将python程序打包，因为大部分人的电脑中没有python环境，而且我们不可能在插件中内嵌一个python环境，所有最后需要将python代码打包成exe程序。
+
 ![请添加图片描述](https://i-blog.csdnimg.cn/direct/ab08540f88b54bdb90e4c4d1669bd658.png)
 
 上面是整套python代码的执行流程，简单来说就是首先找出差异文件，然后生成lua代码的语法树，然后找到所有的本地化id，最后将查找的结果进行序列化并以JSON格式保存在本地。C#层会读取该JSON文件，从而查找对应id。
